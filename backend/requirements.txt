@@ -1,0 +1,14 @@
+Flask==3.0.0
+flask-cors==4.0.0
+Werkzeug==3.0.1
+torch==2.1.2
+torchvision==0.16.2
+Pillow==10.2.0
+opencv-python==4.9.0.80
+scikit-image==0.22.0
+numpy==1.26.3
+scipy==1.11.4
+pycryptodome==3.20.0
+PyWavelets==1.5.0
+python-dotenv==1.0.0
+tqdm==4.66.1

@@ -1,0 +1,14 @@
+{
+  "name": "srnet-steganography-suite",
+  "version": "1.0.0",
+  "description": "Premium Steganography Suite",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000 --open=index.html",
+    "dev": "live-server --port=3000 --open=index.html"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

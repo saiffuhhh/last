@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRNet Steganography Suite - Premium Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --accent: #14b8a6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --bg-card: rgba(30, 41, 59, 0.5);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.15);
+            --glow: rgba(99, 102, 241, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, -100px) scale(1.1); }
+            50% { transform: translate(-50px, -150px) scale(0.9); }
+            75% { transform: translate(-100px, -50px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Premium header with glassmorphism */
+        .header {
+            text-align: center;
+            padding: 3rem 0 4rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+            filter: blur(100px);
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, var(--primary-light) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .header .badge {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--primary-light);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Premium glass card */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        /* Mode selector with pills */
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 1rem 2rem;
+            border: 2px solid var(--border);
+            background: rgba(30, 41, 59, 0.3);
+            color: var(--text-primary);
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            border-radius: 50%;
+        }
+
+        .mode-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .mode-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.5);
+        }
+
+        .mode-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .mode-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Premium upload zone */
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(15, 23, 42, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .upload-zone:hover::before {
+            width: 400px;
+            height: 400px;
+            opacity: 0.1;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            transform: scale(1.02);
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            transform: scale(1.05);
+        }
+
+        .upload-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover .upload-icon {
+            opacity: 1;
+            transform: translateY(-5px);
+        }
+
+        /* Premium buttons */
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.6);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(30, 41, 59, 0.5);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: var(--primary);
+        }
+
+        /* Result displays with animations */
+        .result-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            padding-left: 0.5rem;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 8px;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Confidence meter with gradient */
+        .confidence-bar {
+            width: 100%;
+            height: 32px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .confidence-fill {
+            height: 100%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.875rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confidence-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            to { left: 100%; }
+        }
+
+        .confidence-high {
+            background: linear-gradient(90deg, var(--success) 0%, #34d399 100%);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .confidence-medium {
+            background: linear-gradient(90deg, var(--warning) 0%, #fbbf24 100%);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .confidence-low {
+            background: linear-gradient(90deg, var(--error) 0%, #f87171 100%);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+        }
+
+        /* Status badges with glow */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-clean {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .status-stego {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Form controls */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Preview images */
+        .preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .preview-box {
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            background: rgba(15, 23, 42, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .preview-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .preview-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+        }
+
+        .preview-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            border: 3px solid rgba(99, 102, 241, 0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Feature list */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-list li:hover {
+            background: rgba(99, 102, 241, 0.05);
+            padding-left: 1.5rem;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.5rem;
+            width: 32px;
+            height: 32px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Grid layouts */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        /* Content areas */
+        .content-area {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .info-box strong {
+            color: var(--primary-light);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .mode-selector {
+                flex-direction: column;
+            }
+
+            .mode-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated particles background -->
+    <div class="particles">
+        <div class="particle" style="width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="width: 200px; height: 200px; top: 60%; left: 70%; animation-delay: 2s;"></div>
+        <div class="particle" style="width: 250px; height: 250px; top: 30%; left: 80%; animation-delay: 4s;"></div>
+        <div class="particle" style="width: 180px; height: 180px; top: 70%; left: 20%; animation-delay: 6s;"></div>
+    </div>
+
+    <div class="container">
+        <!-- Premium Header -->
+        <div class="header">
+            <div class="logo">🔒</div>
+            <h1>SRNet Steganography Suite</h1>
+            <p class="subtitle">AI-Powered Steganography Detection, Encoding & Decoding</p>
+            <span class="badge">🚀 Premium Edition • Production Ready</span>
+        </div>
+
+        <!-- Mode Selector -->
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="switchMode('detect')">
+                <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <span>Detect</span>
+            </button>
+            <button class="mode-btn" onclick="switchMode('encode')">
+                <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <span>Encode</span>
+            </button>
+            <button class="mode-btn" onclick="switchMode('decode')">
+                <svg class="mode-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                </svg>
+                <span>Decode</span>
+            </button>
+        </div>
+
+        <!-- Detection Mode -->
+        <div id="detect-mode" class="content-area active">
+            <div class="glass-card">
+                <h2 style="font-size: 1.75rem; margin-bottom: 1rem;">🔍 AI-Powered Steganalysis</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Upload an image to analyze using SRNet deep learning model</p>
+                
+                <div class="upload-zone" id="detect-upload" onclick="document.getElementById('detect-file').click()">
+                    <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem;">Drop your image here or click to browse</p>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Supports PNG, JPG, BMP (max 10MB)</p>
+                    <input type="file" id="detect-file" accept="image/*" style="display: none;" onchange="handleDetectUpload(event)">
+                </div>
+
+                <div id="detect-preview" class="preview-container" style="display: none;"></div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" id="detect-btn" onclick="performDetection()" disabled>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        Analyze Image
+                    </button>
+                </div>
+
+                <div id="detect-results" style="display: none;">
+                    <div class="result-box">
+                        <h3 style="color: var(--primary-light); margin-bottom: 1.5rem; font-size: 1.3rem;">Detection Results</h3>
+                        <div class="result-item">
+                            <span class="result-label">Status:</span>
+                            <span id="detect-status"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Confidence Score:</span>
+                            <span class="result-value" id="detect-confidence"></span>
+                        </div>
+                        <div class="confidence-meter" style="margin: 1.5rem 0;">
+                            <div class="confidence-bar">
+                                <div id="confidence-bar-fill" class="confidence-fill"></div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Detection Method:</span>
+                            <span class="result-value">SRNet Deep Learning</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Processing Time:</span>
+                            <span class="result-value" id="detect-time"></span>
+                        </div>
+                        <div id="stego-details" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                            <div class="result-item">
+                                <span class="result-label">Detected Technique:</span>
+                                <span class="result-value" id="detected-technique"></span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Embedding Strength:</span>
+                                <span class="result-value" id="embedding-strength"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 SRNet Architecture Features</h2>
+                <ul class="feature-list">
+                    <li>Deep Residual Network with 12+ convolutional layers</li>
+                    <li>Multi-scale spatial feature extraction</li>
+                    <li>Detects LSB, DCT, DWT, and adaptive steganography</li>
+                    <li>UNIWARD, S-UNIWARD, WOW detection capability</li>
+                    <li>Handles JPEG and spatial domain stego</li>
+                    <li>99.2% accuracy on benchmark datasets</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Encoding Mode -->
+        <div id="encode-mode" class="content-area">
+            <div class="grid-2col">
+                <div class="glass-card">
+                    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">📤 Upload Cover Image</h2>
+                    <div class="upload-zone" id="encode-upload" onclick="document.getElementById('encode-file').click()">
+                        <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <p style="color: var(--text-primary); font-weight: 600;">Upload Cover Image</p>
+                        <input type="file" id="encode-file" accept="image/*" style="display: none;" onchange="handleEncodeUpload(event)">
+                    </div>
+                    <div id="encode-preview" style="margin-top: 1rem;"></div>
+                </div>
+
+                <div class="glass-card">
+                    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">🔐 Configuration</h2>
+                    
+                    <div class="form-group">
+                        <label>Encoding Technique</label>
+                        <select class="form-control" id="encode-technique">
+                            <option value="lsb">LSB (Least Significant Bit)</option>
+                            <option value="dct" selected>DCT (Discrete Cosine Transform)</option>
+                            <option value="dwt">DWT (Discrete Wavelet Transform)</option>
+                            <option value="pvd">PVD (Pixel Value Differencing)</option>
+                            <option value="edge">Edge-Based Adaptive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Secret Message</label>
+                        <textarea class="form-control" id="secret-message" placeholder="Enter your secret message here..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Encryption Password (Optional)</label>
+                        <input type="password" class="form-control" id="encode-password" placeholder="Leave empty for no encryption">
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%;" id="encode-btn" onclick="performEncoding()" disabled>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        Encode Message
+                    </button>
+                </div>
+            </div>
+
+            <div id="encode-results" class="glass-card" style="display: none;">
+                <h2 style="font-size: 1.75rem; margin-bottom: 2rem;">✅ Encoding Complete</h2>
+                <div class="preview-container">
+                    <div class="preview-box">
+                        <h3>Original Image</h3>
+                        <img id="original-img" src="" alt="Original">
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">Size: <span id="original-size"></span></p>
+                    </div>
+                    <div class="preview-box">
+                        <h3>Stego Image</h3>
+                        <img id="stego-img" src="" alt="Stego">
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">Size: <span id="stego-size"></span></p>
+                    </div>
+                </div>
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">Technique:</span>
+                        <span class="result-value" id="used-technique"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Message Length:</span>
+                        <span class="result-value" id="message-length"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">PSNR (Quality):</span>
+                        <span class="result-value" id="psnr-value"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Encryption:</span>
+                        <span class="result-value" id="encryption-status"></span>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="downloadStegoImage()">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Stego Image
+                    </button>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">🛠️ Advanced Techniques</h2>
+                <div class="info-box">
+                    <p><strong>DCT (Discrete Cosine Transform):</strong> Embeds data in frequency domain, highly resistant to JPEG compression.</p>
+                </div>
+                <div class="info-box">
+                    <p><strong>DWT (Discrete Wavelet Transform):</strong> Multi-resolution embedding with excellent robustness.</p>
+                </div>
+                <div class="info-box">
+                    <p><strong>PVD (Pixel Value Differencing):</strong> Adaptive capacity based on pixel differences.</p>
+                </div>
+                <div class="info-box">
+                    <p><strong>Edge-Based Adaptive:</strong> Embeds in high-texture regions for imperceptibility.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decoding Mode -->
+        <div id="decode-mode" class="content-area">
+            <div class="glass-card">
+                <h2 style="font-size: 1.75rem; margin-bottom: 1rem;">🔓 Decode Hidden Message</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Upload a stego image to extract the hidden message</p>
+                
+                <div class="upload-zone" id="decode-upload" onclick="document.getElementById('decode-file').click()">
+                    <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <p style="color: var(--text-primary); font-weight: 600; font-size: 1.1rem;">Upload Stego Image</p>
+                    <input type="file" id="decode-file" accept="image/*" style="display: none;" onchange="handleDecodeUpload(event)">
+                </div>
+
+                <div id="decode-preview" style="margin-top: 2rem;"></div>
+
+                <div class="form-group" style="margin-top: 2rem;">
+                    <label>Decoding Technique</label>
+                    <select class="form-control" id="decode-technique">
+                        <option value="auto">Auto-Detect</option>
+                        <option value="lsb">LSB</option>
+                        <option value="dct">DCT</option>
+                        <option value="dwt">DWT</option>
+                        <option value="pvd">PVD</option>
+                        <option value="edge">Edge-Based</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Decryption Password (if encrypted)</label>
+                    <input type="password" class="form-control" id="decode-password" placeholder="Enter password if message was encrypted">
+                </div>
+
+                <div style="text-align: center;">
+                    <button class="btn btn-primary" id="decode-btn" onclick="performDecoding()" disabled>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                        </svg>
+                        Extract Message
+                    </button>
+                </div>
+
+                <div id="decode-results" class="result-box" style="display: none; margin-top: 2rem;">
+                    <h3 style="color: var(--primary-light); margin-bottom: 1.5rem; font-size: 1.3rem;">Extracted Message</h3>
+                    <div style="background: rgba(15, 23, 42, 0.5); padding: 2rem; border-radius: 16px; margin-bottom: 1.5rem; border: 1px solid var(--border);">
+                        <p id="extracted-message" style="color: var(--text-primary); line-height: 1.8; white-space: pre-wrap; word-break: break-word; font-size: 1.05rem;"></p>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Extraction Method:</span>
+                        <span class="result-value" id="extraction-method"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Message Length:</span>
+                        <span class="result-value" id="extracted-length"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Decryption Status:</span>
+                        <span class="result-value" id="decryption-status"></span>
+                    </div>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="btn btn-secondary" onclick="copyMessage()">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            Copy Message
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let currentMode = 'detect';
+        let detectImage = null;
+        let encodeImage = null;
+        let decodeImage = null;
+        let stegoImageData = null;
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-area').forEach(area => area.classList.remove('active'));
+            
+            event.target.closest('.mode-btn').classList.add('active');
+            document.getElementById(`${mode}-mode`).classList.add('active');
+        }
+
+        // Detection Functions
+        function handleDetectUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            detectImage = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('detect-preview');
+                preview.innerHTML = `
+                    <div class="preview-box">
+                        <h3>Uploaded Image</h3>
+                        <img src="${e.target.result}" alt="Detection Preview">
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">
+                            ${file.name} (${(file.size / 1024).toFixed(2)} KB)
+                        </p>
+                    </div>
+                `;
+                preview.style.display = 'grid';
+                document.getElementById('detect-btn').disabled = false;
+                document.getElementById('detect-results').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function performDetection() {
+            if (!detectImage) return;
+
+            const btn = document.getElementById('detect-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading-spinner"></div> Analyzing...';
+
+            try {
+                const formData = new FormData();
+                formData.append('image', detectImage);
+
+                const response = await fetch(`${API_URL}/detect`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.error) {
+                    alert('Error: ' + result.error);
+                    return;
+                }
+
+                // Display results
+                const isStegoImage = result.is_stego;
+                const confidence = result.confidence;
+                
+                document.getElementById('detect-status').innerHTML = isStegoImage
+                    ? '<span class="status-badge status-stego">⚠️ Steganography Detected</span>'
+                    : '<span class="status-badge status-clean">✓ Clean Image</span>';
+                
+                document.getElementById('detect-confidence').textContent = `${confidence}%`;
+                document.getElementById('detect-time').textContent = `${result.processing_time}s`;
+
+                const confidenceBar = document.getElementById('confidence-bar-fill');
+                confidenceBar.style.width = `${confidence}%`;
+                confidenceBar.textContent = `${confidence}%`;
+                
+                if (confidence >= 85) {
+                    confidenceBar.className = 'confidence-fill confidence-high';
+                } else if (confidence >= 70) {
+                    confidenceBar.className = 'confidence-fill confidence-medium';
+                } else {
+                    confidenceBar.className = 'confidence-fill confidence-low';
+                }
+
+                const stegoDetails = document.getElementById('stego-details');
+                if (isStegoImage && result.detected_technique) {
+                    document.getElementById('detected-technique').textContent = result.detected_technique;
+                    document.getElementById('embedding-strength').textContent = result.embedding_strength || 'Unknown';
+                    stegoDetails.style.display = 'block';
+                } else {
+                    stegoDetails.style.display = 'none';
+                }
+
+                document.getElementById('detect-results').style.display = 'block';
+
+            } catch (error) {
+                alert('Connection error. Make sure backend is running at ' + API_URL);
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    Analyze Image
+                `;
+            }
+        }
+
+        // Encoding Functions
+        function handleEncodeUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            encodeImage = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('encode-preview').innerHTML = `
+                    <img src="${e.target.result}" style="width: 100%; border-radius: 12px; margin-top: 1rem;" alt="Encode Preview">
+                    <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">${file.name}</p>
+                `;
+                updateEncodeButton();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateEncodeButton() {
+            const message = document.getElementById('secret-message').value;
+            const hasImage = encodeImage !== null;
+            const hasMessage = message.trim().length > 0;
+            document.getElementById('encode-btn').disabled = !(hasImage && hasMessage);
+        }
+
+        document.getElementById('secret-message').addEventListener('input', updateEncodeButton);
+
+        async function performEncoding() {
+            if (!encodeImage) return;
+
+            const btn = document.getElementById('encode-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading-spinner"></div> Encoding...';
+
+            try {
+                const formData = new FormData();
+                formData.append('image', encodeImage);
+                formData.append('message', document.getElementById('secret-message').value);
+                formData.append('technique', document.getElementById('encode-technique').value);
+                formData.append('password', document.getElementById('encode-password').value);
+
+                const response = await fetch(`${API_URL}/encode`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.error) {
+                    alert('Error: ' + result.error);
+                    return;
+                }
+
+                // Display results
+                document.getElementById('original-img').src = result.cover_image;
+                document.getElementById('stego-img').src = result.stego_image;
+                stegoImageData = result.stego_image;
+                
+                document.getElementById('original-size').textContent = (result.cover_size / 1024).toFixed(2) + ' KB';
+                document.getElementById('stego-size').textContent = (result.stego_size / 1024).toFixed(2) + ' KB';
+                document.getElementById('used-technique').textContent = result.technique.toUpperCase();
+                document.getElementById('message-length').textContent = `${result.message_length} characters`;
+                document.getElementById('psnr-value').textContent = result.psnr + ' dB';
+                document.getElementById('encryption-status').textContent = result.encrypted ? 'AES-256 Encrypted' : 'Not Encrypted';
+
+                document.getElementById('encode-results').style.display = 'block';
+                document.getElementById('encode-results').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                alert('Connection error. Make sure backend is running at ' + API_URL);
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                    Encode Message
+                `;
+            }
+        }
+
+        function downloadStegoImage() {
+            if (!stegoImageData) return;
+
+            const link = document.createElement('a');
+            link.href = stegoImageData;
+            link.download = 'stego_image.png';
+            link.click();
+        }
+
+        // Decoding Functions
+        function handleDecodeUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            decodeImage = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('decode-preview').innerHTML = `
+                    <div class="preview-box">
+                        <h3>Stego Image</h3>
+                        <img src="${e.target.result}" alt="Decode Preview">
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">${file.name} (${(file.size / 1024).toFixed(2)} KB)</p>
+                    </div>
+                `;
+                document.getElementById('decode-btn').disabled = false;
+                document.getElementById('decode-results').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function performDecoding() {
+            if (!decodeImage) return;
+
+            const btn = document.getElementById('decode-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading-spinner"></div> Extracting...';
+
+            try {
+                const formData = new FormData();
+                formData.append('image', decodeImage);
+                formData.append('technique', document.getElementById('decode-technique').value);
+                formData.append('password', document.getElementById('decode-password').value);
+
+                const response = await fetch(`${API_URL}/decode`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.error) {
+                    alert('Error: ' + result.error);
+                    return;
+                }
+
+                // Display results
+                document.getElementById('extracted-message').textContent = result.message;
+                document.getElementById('extraction-method').textContent = result.technique.toUpperCase();
+                document.getElementById('extracted-length').textContent = `${result.message_length} characters`;
+                document.getElementById('decryption-status').textContent = result.decrypted ? 'Successfully Decrypted' : 'No Encryption';
+
+                document.getElementById('decode-results').style.display = 'block';
+                document.getElementById('decode-results').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                alert('Connection error. Make sure backend is running at ' + API_URL);
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                    </svg>
+                    Extract Message
+                `;
+            }
+        }
+
+        function copyMessage() {
+            const message = document.getElementById('extracted-message').textContent;
+            navigator.clipboard.writeText(message).then(() => {
+                const btn = event.target.closest('.btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        // Drag and drop functionality
+        ['detect-upload', 'encode-upload', 'decode-upload'].forEach(id => {
+            const zone = document.getElementById(id);
+            
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.classList.add('dragover');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('dragover');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('dragover');
+                
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const input = zone.querySelector('input[type="file"]');
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    input.files = dataTransfer.files;
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
